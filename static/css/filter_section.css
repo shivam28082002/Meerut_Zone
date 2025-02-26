@@ -1,0 +1,23 @@
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background-color: #1878BD !important;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    gap: 5px;
+    height: 45px;
+}
+
+.department_add-btn {
+    background-color: #0A3151;
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    font-size: 14px;
+
+}

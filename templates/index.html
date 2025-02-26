@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load crispy_forms_tags %}
+{% load custom_filters %}
+
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Meerut Zone</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <!-- Favicons -->
+
+  <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">  
+  <link href="static/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/chatbot.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/review.css' %}" />
+
+
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope d-flex align-items-center"><a href="info@meerutzone.com">info@meerutzone.com</a></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+91 9458510183</span></i>
+      </div>
+      <div class="social-links d-none d-md-flex align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="{% url 'home' %}"><img src="../static/img/logo.png" alt=""><span>
+            <link href="../static/img/icon-192.png" rel="icon">
+          </span></a></h1>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto " href="#portfolio">Tourist Places</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          {% if not request.user.user_profile %}
+          <li class="dropdown"><a href="#"><span>Login/Sign up</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</a></li>
+              <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModals">Sign up</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class="dropdown"><a href="#"><span>{{request.user.first_name}} {{request.user.last_name}}</span> <i
+                class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="{% url 'profile' %}" data-bs-toggle="modal" data-bs-target="#exampleModal1">Profile</a></li>
+              <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal3">Change Password</a></li>
+              <li><a href="{% url 'logout_view' %}">Logout</a></li>
+            </ul>
+          </li>
+          {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- Login -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'login' %}" id="login-form">
+            {% csrf_token %}
+            <div class="form_wrp-bx-login">
+              <div class="mb-4 mt-2">
+                {{ login_form.email|as_crispy_field }}
+              </div>
+              <div class="mb-4">
+                {{ login_form.password|as_crispy_field }}
+              </div>
+              <div class="remforwrp align-items-center">
+                <div class="form-check form-switch p-0 d-flex align-items-center">
+                  <input class="login-check-input" type="checkbox" role="" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Remember Me</label>
+                </div>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal4">Forget Password?</a>
+              </div>
+              <button type="submit" class="btn btn-primary text-center">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end Login -->
+
+  <!-- Forget Password -->
+
+  <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Forget your Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'forget_password_view' %}" id="">
+            {% csrf_token %}
+            <div class="row text-start mt-2">
+              <div class="mb-4 mt-2">
+                <div id="div_id_email" class="mb-3">
+                  <label for="id_email" class="form-label requiredField">
+                    Enter Your Register Email<span class="asteriskField">*</span>
+                  </label>
+                  <input type="email" name="email" maxlength="320" placeholder="Enter Your register email"
+                    class="emailinput form-control" required="" id="email_check">
+                  <span id="error_email" style="color: red;"></span>
+                </div>
+              </div>
+            </div>
+            <div class="text-center"><button type="submit" value="submit" class="btn btn-primary text-center">Forget
+                Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Forget -->
+
+  <!-- Profile -->
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'profile' %}">
+            {% csrf_token %}
+            <div class="row text-start mt-2">
+              <div id="div_id_first_name" class="mb-3">
+                <label for="id_first_name" class="form-label requiredField">
+                  First Name<span class="asteriskField">*</span>
+                </label>
+                <input type="text" name="first_name" maxlength="150" placeholder="First name"
+                  class="textinput form-control" required="" id="id_first_name" value="{{request.user.first_name}}">
+              </div>
+              <div id="div_id_first_name" class="mb-3">
+                <label for="id_first_name" class="form-label requiredField">
+                  Last Name<span class="asteriskField">*</span>
+                </label>
+                <input type="text" name="last_name" maxlength="150" placeholder="last name"
+                  class="textinput form-control" required="" id="id_first_name" value="{{request.user.last_name}}">
+              </div>
+              <div id="div_id_first_name" class="mb-3">
+                <label for="id_first_name" class="form-label requiredField">
+                  email <span class="asteriskField">*</span>
+                </label>
+                <input type="email" name="email" maxlength="150" placeholder="email" class="textinput form-control"
+                  required="" id="id_first_name" value="{{request.user.email}}">
+              </div>
+              <div id="div_id_first_name" class="mb-3">
+                <label for="id_first_name" class="form-label requiredField">
+                  phone no<span class="asteriskField">*</span>
+                </label>
+                <input type="text" name="phone" maxlength="150" placeholder="Phone" class="textinput form-control"
+                  required="" id="id_first_name" value="{{request.user.user_profile.phone}}">
+              </div>
+            </div>
+            <div class="text-center"> <button type="submit" class="btn btn-primary text-center">Update Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Profile -->
+  {% include 'message.html' %}
+
+
+  <!-- Changed Password -->
+  <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change Your Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'change_password_view' %}" id="">
+            {% csrf_token %}
+            <div class="row text-start mt-2">
+              <div id="div_id_first_name" class="mb-3">
+                {{change_password.old_password|as_crispy_field}}
+              </div>
+              <div id="div_id_first_name" class="mb-3">
+                {{change_password.password1|as_crispy_field}}
+              </div>
+              <div id="div_id_first_name" class="mb-3">
+                {{change_password.password2|as_crispy_field}}
+              </div>
+            </div>
+            <div class="text-center"><button type="submit" class="btn btn-primary text-center">Change Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end Change Password -->
+
+  <!-- Signup Start -->
+  <div class="modal fade" id="exampleModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel">Signup</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{% url 'signup'%}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="dashbaord_WelcomeBox main-user-profile">
+              <div class="row text-start mt-2">
+                <div class="col-md-6 mb-4">
+                  {{ user_form.first_name|as_crispy_field }}
+                  <span id="firstnameError" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-4">
+                  {{ user_form.last_name|as_crispy_field }}
+                  <span id="lastnameError" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                  <div id="div_id_email" class="mb-3">
+                    <label for="id_email" class="form-label requiredField">
+                      Email address<span class="asteriskField">*</span>
+                    </label>
+                    <input type="email" name="email" maxlength="254" placeholder="Email address"
+                      class="emailinput form-control" required="" id="id_email_signup">
+                  </div>
+                  <span id="emailtext" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-4">
+                  {{ user_form.password|as_crispy_field }}
+                </div>
+                <div class="col-md-6 mb-4">
+                  {{ user_profile_form.gender|as_crispy_field }}
+                </div>
+                <div class="col-md-6 mb-4">
+                  {{ user_profile_form.phone|as_crispy_field }}
+                </div>
+                <div class="col-md-6 mb-4">
+                  {{ user_profile_form.date_of_birth|as_crispy_field }}
+                </div>
+              </div>
+              <div class="text-center"><button type="submit" class="btn btn-primary" value="submit">Signup</button>
+              </div>
+            </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- Signup End -->
+
+  <!-- ===================chatbot Section==================== -->
+  <!---Chat Board Start-->
+  <div class="chat-board chatbot chat new trending"></div>
+  <div class="frame-content">
+    <div class="widget-position-right sidebar-position-right onlyBubble" id="chatContainer">
+      <div class="chat no-clip-path chrome moveFromRight-enter-done">
+        <div class="chatbox__support">
+          <div class="chatbox__header">
+            <button class="material-icons exit-chat ripple tidio-1s5t5ku" id="minimize-button" type="button"
+              aria-label="Minimize" style="color: rgb(255, 255, 255);">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" id="ic-minimize">
+                <path d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
+              </svg>
+              <span>Minimize</span>
+            </button>
+            <div class="chatbox__image--header">
+              <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-5--v1.png" alt="image">
+            </div>
+
+            <div class="chatbox__content--header">
+              <h4 class="chatbox__heading--header">Chat Zone</h4>
+            </div>
+          </div>
+          <div id="conversation-group" role="log">
+            <div id="messages" aria-live="polite" aria-atomic="false" data-testid="messagesLog">
+              <div class="message message-operator  ">
+                <span class="message-content">Hi. My name is Sam. How can I help you?</span>
+              </div>
+              <div class="message message-operator bots-quick-replies">
+                <div class="button-wrapper">
+                </div>
+              </div>
+            </div>
+            <div id="conversation-scroll">
+              <div style="top: 0px; height: 55.8952px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="input-group ">
+          <hr>
+          <div class="drag-active-wrapper footer-input-wrapper">
+            <textarea id="chat-input" rows="1" placeholder="Hit the buttons to respond" aria-label="New message"
+              data-testid="newMessageTextarea"></textarea>
+            <button id="SentButton" class="send-icon" title="SentButton" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xml:space="preserve">
+                <path fill="#d7d7d7"
+                  d="M22,11.7V12h-0.1c-0.1,1-17.7,9.5-18.8,9.1c-1.1-0.4,2.4-6.7,3-7.5C6.8,12.9,17.1,12,17.1,12H17c0,0,0-0.2,0-0.2c0,0,0,0,0,0c0-0.4-10.2-1-10.8-1.7c-0.6-0.7-4-7.1-3-7.5C4.3,2.1,22,10.5,22,11.7z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!---===================Chat Board End======================--->
+    <div id="chat-button" data-testid="widgetButton" class="chat-closed mobile-size__medium">
+      <div class="buttonWave"></div>
+      <button type="button" id="button-body" data-testid="widgetButtonBody" class="chrome" tabindex="0"
+        aria-label="Open chat widget">
+        <svg fill="#000000" width="24" height="24" viewBox="0 0 24 24" id="conversation-alt" data-name="Flat Line"
+          xmlns="http://www.w3.org/2000/svg" class="icon flat-line">
+          <path id="secondary" d="M17,4v8a1,1,0,0,1-1,1H7L3,17V4A1,1,0,0,1,4,3H16A1,1,0,0,1,17,4Z"
+            style="fill: rgb(44, 169, 188); stroke-width: 2;"></path>
+          <path id="primary" d="M8,17h9l4,4V7a1,1,0,0,0-1-1H17"
+            style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+          </path>
+          <path id="primary-2" data-name="primary" d="M17,4v8a1,1,0,0,1-1,1H7L3,17V4A1,1,0,0,1,4,3H16A1,1,0,0,1,17,4Z"
+            style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+          </path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================End Section==================== -->
+
+
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+      <h1>Welcome to <span>Sport CIty</span></h1>
+      <h1>Meerut</1h>
+        <div class="d-flex">
+          <a href="#about" class="btn-get-started scrollto">Get Started</a>
+          <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i
+              class="bi bi-play-circle"></i><span>Watch Video</span></a>
+        </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h3>Facts about <span>Meerut</span></h3>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class=""><i class=""><img src="../static/img/revolt-svgrepo-com.svg" alt=""></i></div>
+              <h4 class="title"><a href="#">The Revolt of 1857</a></h4>
+              <p class="description">Meerut played a significant role during the Indian Rebellion of 1857, also known as
+                the First War of Independence.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class=""><i class=""><img src="../static/img/cricket-game-svgrepo-com.svg" alt=""></i></div>
+              <h4 class="title"><a href="#">Sporting Heritage </a></h4>
+              <p class="description">
+                Meerut is known as the “Sports City of India” because of its contribution to the field of sports.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class=""><i class=""><img src="../static/img/cap-education-hat-svgrepo-com.svg" alt=""></i></div>
+              <h4 class="title"><a href="#">Educational Hub</a></h4>
+              <p class="description"> Meerut is home to several prestigious educational institutions, including
+                Chaudhary Charan Singh University.</p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+              <div class=""><i class=""><img src="../static/img/moais-svgrepo-com.svg" alt=""></i></div>
+              <h4 class="title"><a href="#">Connection to Mahabharata</a></h4>
+              <p class="description"> According to Hindu mythology, Meerut is closely associated with the epic tale of
+                Mahabharata. It is believed to be the birthplace of Draupadi.</p>
+            </div>
+
+          </div>
+
+        </div>
+    </section><!-- End Featured Services Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h1><span>Services</span></h1>
+          <h4><span>Find What you need</span></h4>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class=""><i class=""><img src="../static/img/hospital-svgrepo-com.svg" alt=""></i></div>
+              <h4><a href="{% url 'hospital_data' %}">Hospitals</a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class=""><img src="../static/img/cap-education-hat-svgrepo-com.svg" alt=""></div>
+              <h4><a href="{% url 'eduction' %}">Eduction</a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class=""><img src="../static/img/restaurant-plate-svgrepo-com.svg" alt=""></div>
+              <h4><a href="{% url 'cafes' %}">Restaurants/Cafes</a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class=""><img src="../static/img/bank-campus-court-svgrepo-com.svg" alt=""></div>
+              <h4><a href="{% url 'bank' %}">Banks/Atms</a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class=""><img src="../static/img/park-svgrepo-com.svg" alt=""></div>
+              <h4><a href="{% url 'park' %}">Park</a></h4>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class=""><img src="../static/img/shopping-card-svgrepo-com.svg" alt=""></div>
+              <h4><a href="{% url 'shopping' %}">Shopping</a></h4>
+              <p></p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../static/img/avatar-people-profile-svgrepo-com.svg" class="testimonial-img" alt="">
+                <h3>Saul Goodman</h3>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  "A computer program does what you tell it to do, not what you want it to do."
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../static/img/avatar-people-profile-svgrepo-com.svg" class="testimonial-img" alt="">
+                <h3>Joel Spolsky</h3>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  "It's harder to read code than to write it."
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../static/img/avatar-people-profile-svgrepo-com.svg" class="testimonial-img" alt="">
+                <h3>Bill Gates</h3>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  The computer was born to solve problems that did not exist before.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../static/img/avatar-people-profile-svgrepo-com.svg" class="testimonial-img" alt="">
+                <h3>Robert C. Martin </h3>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  "Truth can only be found in one place: the code."
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <img src="../static/img/avatar-people-profile-svgrepo-com.svg" class="testimonial-img" alt="">
+                <h3>Dennis Ritchie</h3>
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  "The only way to learn a new programming language is by writing programs in it."
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+              </div>
+            </div><!-- End testimonial item -->
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Testimonials Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2></h2>
+          <h3>Check our <span>Touriest Places</span></h3>
+          <p></p>
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">All</li>
+              <li data-filter=".filter-app">Temples</li>
+              <li data-filter=".filter-card">Outside Designation</li>
+              <li data-filter=".filter-web">Memorials</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="../static/img/temple.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4> Augharnath Shiv Mandir</h4>
+              <p>Sadar Bazaar</p>
+              <a href="../static/img/shiva.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link"
+                title=""><i class="bx bx-plus"></i></a>
+              <a href="https://www.google.com/maps/dir//Shri+Baba+Augharnath+Shiv+Mandir,+Meerut+Cantt,+Meerut,+Uttar+Pradesh+250001/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x390c65aefbef559b:0x5d8f3bf833868072?sa=X&ved=1t:57443&ictx=111"
+                class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <img src="../static/img/sadhid.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Shahid Smarak</h4>
+              <p> Brooke Street, Meerut</p>
+              <a href="../static/img/sadhidq.jpg" data-gallery="portfolioGallery"
+                class="portfolio-lightbox preview-link" title="Shahid Smarak"><i class="bx bx-plus"></i></a>
+              <a href="https://www.google.com/maps?sca_esv=56c1cc000332f016&rlz=1C1RXQR_enIN1088IN1091&biw=1536&bih=730&dpr=1.25&um=1&ie=UTF-8&fb=1&gl=in&sa=X&geocode=KaMUXqAPZQw5MUyCxqrk7iAj&daddr=2P35%2B96Q,+Brooke+Street,+Meerut,+Uttar+Pradesh+250001"
+                class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="../static/img/hunuman.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Hanuman Mandir</h4>
+              <p>Sadar Chowk</p>
+              <a href="static/img/hunuman1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link"
+                title="Hanuman"><i class="bx bx-plus"></i></a>
+              <a href="https://www.google.com/maps?rlz=1C1RXQR_enIN1088IN1091&sca_esv=56c1cc000332f016&lqi=ChB0ZW1wbGUgaW4gbWVlcnV0SK25x9zngICACFoYEAAYABgCIhB0ZW1wbGUgaW4gbWVlcnV0kgEMaGluZHVfdGVtcGxlqgFFEAEqCiIGdGVtcGxlKAAyHxABIhsiFAviz6mco4cJQbV3eOoNH5vbt109VjCJWmcyFBACIhB0ZW1wbGUgaW4gbWVlcnV0&vet=12ahUKEwjF0f7XsZqGAxVTyzgGHVN-B-0Q8UF6BAgZEFQ..i&lei=vkpKZsX6F9OW4-EP0_yd6A4&cs=1&um=1&ie=UTF-8&fb=1&gl=in&sa=X&geocode=Kb2-cy2oZQw5MTC4kJfLrydz&daddr=XMXX%2B7FX,+Bombay+Bazar,+Meerut+Cantt,+Meerut,+Uttar+Pradesh+250001"
+                class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="../static/img/masna.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Mansa Devi</h4>
+              <p>Shastri Nagar</p>
+              <a href="../static/img/mansa1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link"
+                title="App 2"><i class="bx bx-plus"></i></a>
+              <a href="#" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+            <img src="../static/img/chruch1.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Saint John's Church, Meerut</h4>
+              <p>Jattiwara, Meerut,, Meerut</p>
+              <a href="static/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery"
+                class="portfolio-lightbox preview-link" title="Card 2"><i class="bx bx-plus"></i></a>
+              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <img src="../static/img/kot2.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Kotwal Dhan Singh Memorial</h4>
+              <p>Panchli Khurd, Uttar Pradesh</p>
+              <a href="../static/img/kot.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link"
+                title="Kotwal Dhan Singh"><i class="bx bx-plus"></i></a>
+              <a href="https://www.google.com/maps?s=web&rlz=1C1RXQR_enIN1088IN1091&lqi=ChJtZW1vcmlhbCBpbiBtZWVydXRI2bCc1sitgIAIWhoQABgAGAIiEm1lbW9yaWFsIGluIG1lZXJ1dJIBDW1lbW9yaWFsX3BhcmuaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVUlRNbkZZWlhOM1JSQUKqAUkQASoMIghtZW1vcmlhbCgAMh8QASIbm785tyiFww5QbrIVGSZBSg2oRR0D9zpShb62MhYQAiISbWVtb3JpYWwgaW4gbWVlcnV0&vet=12ahUKEwjOs73ytJqGAxVD8jgGHWTXBnkQ1YkKegQIKRAB..i&cs=1&um=1&ie=UTF-8&fb=1&gl=in&sa=X&geocode=KWWMgCV8Zww5MY-D6gS9pP74&daddr=XJ87%2BQG6,+Meerut+Rd,+Panchli+Khurd,+Uttar+Pradesh+250002"
+                class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="../static/img/kali mata.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Kaali Mata Mandir</h4>
+              <p>Sardar Bazar</p>
+              <a href="../static/img/kali_img.jpg" data-gallery="portfolioGallery"
+                class="portfolio-lightbox preview-link" title="Kaali Mata Mandir"><i class="bx bx-plus"></i></a>
+              <a href="https://www.google.com/maps?rlz=1C1RXQR_enIN1088IN1091&sca_esv=56c1cc000332f016&lqi=ChB0ZW1wbGUgaW4gbWVlcnV0SIqQmKHMj4CACFoYEAAYABgCIhB0ZW1wbGUgaW4gbWVlcnV0kgEMaGluZHVfdGVtcGxlqgFFEAEqCiIGdGVtcGxlKAAyHxABIhsiFAviz6mco4cJQbV3eOoNH5vbt109VjCJWmcyFBACIhB0ZW1wbGUgaW4gbWVlcnV0&vet=12ahUKEwjF0f7XsZqGAxVTyzgGHVN-B-0Q8UF6BAgZEFQ..i&lei=vkpKZsX6F9OW4-EP0_yd6A4&cs=1&um=1&ie=UTF-8&fb=1&gl=in&sa=X&geocode=KTfQY4qpZQw5MZjDyd8-aQut&daddr=XMVX%2BM27,+Sadar+Bazaar,+Meerut,+Uttar+Pradesh+250001"
+                class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+            <img src="../static/img/dargra.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Shahpeer Sahab ki Dargah</h4>
+              <p>Meerut</p>
+              <!-- <a href="static/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Shahpeer Sahab ki Dargah"><i class="bx bx-plus"></i></a> -->
+              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+            <img src="../static/img/hasitinapur.jpg" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Hasitinapur</h4>
+              <p>Meerut</p>
+              <a href="../static/img/hasitinapur2.jpg" data-gallery="portfolioGallery"
+                class="portfolio-lightbox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
+              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <img src="../static/img/ramm.webp" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>Ram War Memorial</h4>
+              <p>Dhanwantri Rd, Maqbara Diggi, Meerut</p>
+              <a href="../static/img/ramm2.webp" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link"
+                title="Ram War Memorial"><i class="bx bx-plus"></i></a>
+              <a href="https://www.google.com/maps?rlz=1C1RXQR_enIN1088IN1091&sca_esv=1ebb0e033accb772&lqi=ChJtZW1vcmlhbCBpbiBtZWVydXSSAQ1tZW1vcmlhbF9wYXJrqgFJEAEqDCIIbWVtb3JpYWwoADIfEAEiG5u_ObcohcMOUG6yFRkmQUoNqEUdA_c6UoW-tjIWEAIiEm1lbW9yaWFsIGluIG1lZXJ1dA&vet=12ahUKEwjMhu60tZqGAxWG-DgGHWEfBSIQ8UF6BAgZEFQ..i&lei=pk5KZsybHIbx4-EP4b6UkAI&cs=1&um=1&ie=UTF-8&fb=1&gl=in&sa=X&geocode=KbNjijZZZQw5MYYQG3aZQ4Xe&daddr=XMPP%2BCWC,+Dhanwantri+Rd,+Maqbara+Diggi,+Meerut,+Uttar+Pradesh+250002"
+                class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Section -->
+
+    <!-- ======= Team Section ======= -->
+    <!-- <section id="team" class="team section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Team</h2>
+          <h3>Our Hardworking <span>Team</span></h3>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+            <div class="member">
+              <div class="member-img">
+                <img src="../static/img/hitesh.jpg" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Hitesh</h4>
+                <span>Team Leader</span>
+                <span>Back-end Developer</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+            <div class="member">
+              <div class="member-img">
+                <img src="../static/img/sadhna.jpg" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href="z"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Sadhana Singh</h4>
+                <span>Co-Team Leader</span>
+                <span>Back End/Systems Developer</span>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+            <div class="member">
+              <div class="member-img">
+                <img src="../static/img/kalsh.jpg" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Kalash</h4>
+                <span>Team member</span>
+                <span>UX Designer/ UI Designer</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+            <div class="member">
+              <div class="member-img">
+                <img src="../static/img/somaya.jpg" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Somaya</h4>
+                <span>Team member</span>
+                <span>Content Writer/Copywriter</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>End Team Section -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>About</h2>
+          <h3>Find Out More <span>About Us</span></h3>
+          <p>"Buidling codes and chasing bugs"- the daily adventures of software developer:-
+          <h6><a href="#">SSL StartUps</a></h6>
+          </p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+            <img src="../static/img/aboutsus.jpg" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 content d-flex flex-column justify-content-center" data-aos="fade-up"
+            data-aos-delay="100">
+            <h3>Mission Statement:</h3>
+            <p class="fst-italic">
+              Clearly articulate your company's mission and vision. What problem are you solving, and why does it
+              matter?
+            </p>
+            <ul>
+              <li>
+                <i class="bx bx-store-alt"></i>
+                <div>
+                  <h5>Beginner's Guide to Website Creation:</h5>
+                  <p> Create a comprehensive guide for beginners who want to build their first website. Cover topics
+                    such as choosing a domain name, selecting a website builder or platform, designing the layout,
+                    adding content, and launching the site.</p>
+                </div>
+              </li>
+              <li>
+                <i class="bx bx-images"></i>
+                <div>
+                  <h5>Website Design Trends:</h5>
+                  <p> Explore the latest trends in website design, such as minimalist design, dark mode, immersive
+                    storytelling, micro-interactions, and more. Provide examples and tips for incorporating these trends
+                    into your own website.</p>
+                </div>
+              </li>
+            </ul>
+            <p>
+              <b>Website Optimization Tips:</b> Offer tips and best practices for optimizing website performance,
+              including page speed optimization, mobile responsiveness, SEO techniques, image optimization, and
+              usability enhancements.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Skills Section ======= -->
+    <section id="skills" class="skills">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row skills-content">
+
+          <div class="col-lg-6">
+
+            <div class="progress">
+              <span class="skill">HTML <i class="val">100%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">CSS <i class="val">90%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">JavaScript <i class="val">75%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="progress">
+              <span class="skill">Python<i class="val">80%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">Flutter<i class="val">50%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="progress">
+              <span class="skill">Photoshop <i class="val">55%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Skills Section -->
+
+
+
+    <!-- ======= Frequently Asked Questions Section ======= -->
+    <section id="faq" class="faq section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>F.A.Q</h2>
+          <h3>Frequently Asked <span>Questions</span></h3>
+          <p></p>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-xl-10">
+            <ul class="faq-list">
+              <li>
+                <div data-bs-toggle="collapse" href="#faq5" class="collapsed question">What makes You different from
+                  competitors? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
+                </div>
+                <div id="faq5" class="collapse" data-bs-parent=".faq-list">
+                  <p>
+                    we stand out from our competitors because of our innovative technology, user-friendly design,
+                    personalized approach, exceptional customer service, continuous innovation, and vibrant community
+                    engagement."
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <div data-bs-toggle="collapse" class="collapsed question" href="#faq1">What are your terms of service
+                  and privacy policy? <i class="bi bi-chevron-down icon-show"></i><i
+                    class="bi bi-chevron-up icon-close"></i></div>
+                <div id="faq1" class="collapse" data-bs-parent=".faq-list">
+                  <p>
+                    Our terms of service and privacy policy outline the terms and conditions of using our website and
+                    services, as well as how we handle your personal information. You can find them linked at the bottom
+                    of our website
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <div data-bs-toggle="collapse" href="#faq2" class="collapsed question">Do you have a mobile app? <i
+                    class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+                <div id="faq2" class="collapse" data-bs-parent=".faq-list">
+                  <p>
+                    NO, we are working on mobile app available for both iOS and Android devices. soon you can download
+                    it from the App Store or Google Play Store.
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <div data-bs-toggle="collapse" href="#faq3" class="collapsed question">How can I provide feedback or
+                  suggestions?<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
+                </div>
+                <div id="faq3" class="collapse" data-bs-parent=".faq-list">
+                  <p>
+                    We welcome feedback and suggestions from our users! You can submit feedback through our contact form
+                    or email us directly at <email>meerutzone@outlook.com</email>
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <div data-bs-toggle="collapse" href="#faq4" class="collapsed question">Are there any upcoming features
+                  or updates? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
+                </div>
+                <div id="faq4" class="collapse" data-bs-parent=".faq-list">
+                  <p>
+                    Yes, we're constantly working on new features and updates to improve our products and services. Stay
+                    tuned for announcements on our blog and social media channels]
+                  </p>
+                </div>
+              </li>
+
+
+
+
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Frequently Asked Questions Section -->
+
+    <!-- ======= Contact Section ======= -->
+
+
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Contact</h2>
+          <h3><span>Contact Us</span></h3>
+          <p></p>
+        </div>
+
+        <div class="row" data-aos-delay="100">
+          <div class="col-lg-6">
+            <div class="info-box mb-4">
+              <div class=""><i class=""><img src="../static/img/location-shop-online-svgrepo-com.svg" alt=""></i></div>
+              <h3>Our Address</h3>
+              <p>O Pocket, Ganga Nagar Colony,<br>
+                Mawana Road, Meerut,<br>
+                Uttar Pradesh 250001 ·</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <div class=""><i class=""><img src="../static/img/email-mail-web-svgrepo-com.svg" alt=""></i></div>
+              <h3>Email Us</h3>
+              <p>info@meerutzone.com</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <div class=""><i class=""><img src="../static/img/call-centre-headphones-support-svgrepo-com.svg"
+                    alt=""></i></div>
+              <h3>Call Us</h3>
+              <p>+91 5589 55488 55</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="col-lg-6 ">
+            <iframe class="mb-4 mb-lg-0"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3507.392669160227!2d77.7586867!3d29.0000739!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390c7b0d3a3a7c7b%3A0xf8c29e81f1a1640f!2sIIMT%20University%20Meerut!5e0!3m2!1sen!2sin!4v1621837707927!5m2!1sen!2sin"
+              frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+
+          </div>
+          <div class="col-lg-6">
+            <form action="{% url 'contact_us' %}" method="post" role="form" class="php-email-form">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col form-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit" value="submit">Send Message</button></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main><!-- End #main -->
+
+
+  <!-- ==============review Section================== -->
+  <section id="contact" class="contact">
+    <div class="section-title">
+      <h2>Review Us </h2>
+    </div>
+    <div class="container" data-aos="fade-up">
+        <section id="testimonials">
+          <!--heading--->
+          <div class="wrapper" id="wrapper_id">
+            <div class="master">
+                <h1>Review And rating</h1>
+                <h2>How was your experience about our Website?</h2>
+                <div class="rating-component">
+                    <div class="status-msg">
+                        <label><input class="rating_msg" type="hidden" name="rating_msg" value="" /></label>
+                    </div>
+                    <div class="stars-box">
+                        <i class="star bi bi-star" title="1 star" data-message="Poor" data-value="1"></i>
+                        <i class="star bi bi-star" title="2 stars" data-message="Too bad" data-value="2"></i>
+                        <i class="star bi bi-star" title="3 stars" data-message="Average quality" data-value="3"></i>
+                        <i class="star fa fa-star" title="4 stars" data-message="Nice" data-value="4"></i>
+                        <i class="star bi bi-star" title="5 stars" data-message="very good qality" data-value="5"></i>
+                        
+                    </div>
+                    <div class="starrate">
+                        <label><input class="ratevalue" type="hidden" name="rate_value" value="" /></label>
+                    </div>
+                </div>
+                <div class="feedback-tags">
+                    <div class="tags-container" data-tag-set="1">
+                        <div class="question-tag">
+                            Why was your experience so bad?
+                        </div>
+                    </div>
+                    <div class="tags-container" data-tag-set="2">
+                        <div class="question-tag">
+                            Why was your experience so bad?
+                        </div>
+                    </div>
+                    <div class="tags-container" data-tag-set="3">
+                        <div class="question-tag">
+                            Why was your average rating experience ?
+                        </div>
+                    </div>
+                    <div class="tags-container" data-tag-set="4">
+                        <div class="question-tag">
+                            Why was your experience good?
+                        </div>
+                    </div>
+        
+                    <div class="tags-container" data-tag-set="5">
+                        <div class="make-compliment">
+                            <div class="compliment-container">
+                                Give a compliment
+                                <i class="far fa-smile-wink"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tags-box">
+                      <input type="text" class="tag form-control" name="name" id="name_id" placeholder="Your Name">
+                      <input type="hidden" name="product_id" />
+                  </div>
+        
+                    <div class="tags-box">
+                        <input type="text" class="tag form-control" name="comment" placeholder="Please enter your review">
+                        <input type="hidden" name="product_id" />
+                    </div>
+        
+                </div>
+        
+                <div class="button-box">
+                    <input type="submit" class="done btn btn-warning" disabled="disabled" value="Add review" />
+                </div>
+                <div class="submited-box">
+                  <div class="loader"></div>
+                  <div class="success-message" style="display: none;">Thank you!</div>
+              </div>
+              
+            </div>
+        </div>
+        
+          <!-- end -->
+
+          <!--testimonials-box-container------>
+          <div class="testimonial-box-container">
+            {% for i in review %}
+            <div class="testimonial-box">
+              <div class="box-top">
+                <div class="profile">
+                  <div class="profile-img">
+                    <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
+                  </div>
+                  <div class="name-user">
+                    <strong>{{i.user}}</strong>
+                  </div>
+                </div>
+                <div class="reviews">
+                  {% for _ in i.rating|get_range %}
+                    <i class="bi bi-star-fill"></i>
+                  {% endfor %}
+                  {% for _ in i.rating|get_complement_range %}
+                    <i class="bi bi-star"></i>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="client-comment">
+                <p>{{i.comment}}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </section>
+        <!-- <div class="google-review">
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="rating-review-item">
+                          <div class="left-rating">
+                            <div class="star-rating">
+                              <h3>4.3</h3>
+                              <i class="bi bi-star"></i>
+                              <span class="icon icon-rating-star"></span>
+                            </div>
+                            <div class="number-rating">
+                              <span>1,572 Ratings &</span>
+                              <span>245 Reviews</span>
+                            </div>
+                          </div>
+                          <div class="right-rating">
+                            <ul class="order-list">
+                              <li>
+                                <div class="star-value">
+                                  <h5>5</h5>
+                                  <i class="bi bi-star"></i>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="rating-hit">914</div>
+                              </li>
+                              <li>
+                                <div class="star-value">
+                                  <h5>4</h5>
+                                  <i class="bi bi-star"></i>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="rating-hit">419</div>
+                              </li>
+                              <li>
+                                <div class="star-value">
+                                  <h5>3</h5>
+                                  <i class="bi bi-star"></i>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="rating-hit">148</div>
+                              </li>
+                              <li>
+                                <div class="star-value">
+                                  <h5>2</h5>
+                                  <i class="bi bi-star"></i>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="rating-hit">40</div>
+                              </li>
+                              <li>
+                                <div class="star-value">
+                                  <h5>1</h5>
+                                  <i class="bi bi-star"></i>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="rating-hit">51</div>
+                              </li>
+                            </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+        
+    </div>
+  </section><!-- End Contact Section -->
+
+
+  <!-- ===========End Reveiw -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Email to subscribe our website</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>IIMT Collage<span>.</span></h3>
+            <p>
+              Ganga Nagar <br>
+              Meerut, <br>
+              Uttra Pradesh 250001 <br><br>
+              <strong>Phone:</strong> +91 5589 55488 55<br>
+              <strong>Email:</strong> info@meerutzone.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Our Social Networks</h4>
+            <p>You can also follow our in social media</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Meerut Zone</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Designed by <a href="$">SSL StartUp<i class="bi bi-trophy"></i></a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/waypoints/noframework.waypoints.js' %}"></script>
+  <script src="{% static 'php-email-form/validate.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/chatbot.js' %}"></script>
+
+</body>
+
+</html>
